@@ -1,0 +1,625 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Menu Button */
+.menu-icon {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    cursor: pointer;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.menu-icon:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hamburger span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Side Menu */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: 350px;
+    height: 100vh;
+    background: white;
+    z-index: 1002;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+}
+
+.side-menu.active {
+    left: 0;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.menu-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2em;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.menu-content {
+    padding: 20px;
+}
+
+.menu-section {
+    margin-bottom: 30px;
+}
+
+.menu-section h4 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 8px;
+}
+
+.contract-display {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.contract-label {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.contract-value {
+    font-family: 'Courier New', monospace;
+    color: #667eea;
+    font-weight: 600;
+    word-break: break-all;
+    font-size: 0.9em;
+}
+
+.contract-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.contract-input-group input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    transition: border-color 0.3s;
+}
+
+.contract-input-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.menu-section .btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-small {
+    padding: 8px 20px;
+    font-size: 0.85em;
+}
+
+/* Contract Address History */
+.contract-history {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.history-label {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.no-history {
+    color: #999;
+    font-size: 0.85em;
+    font-style: italic;
+    text-align: center;
+    padding: 10px;
+}
+
+.address-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.address-item {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.address-item:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+    transform: translateX(5px);
+}
+
+.address-item.current-address {
+    background: #e8f4f8;
+    border-color: #667eea;
+}
+
+.address-text {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8em;
+    color: #333;
+    word-break: break-all;
+    flex: 1;
+}
+
+.current-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Menu Overlay */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+    transition: opacity 0.3s ease;
+}
+
+.menu-overlay.active {
+    display: block;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    padding: 30px 20px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+}
+
+.description {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+}
+
+.connection-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.status-disconnected,
+.status-connected {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+.status-disconnected {
+    background: #fee;
+    color: #c33;
+}
+
+.status-connected {
+    background: #efe;
+    color: #3c3;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-generate {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-generate:hover:not(:disabled) {
+    background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+}
+
+.btn-icon {
+    font-size: 1.2em;
+}
+
+.generate-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.generate-buttons .btn {
+    flex: 1;
+    min-width: 200px;
+}
+
+.account-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.account-info p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.account-address {
+    font-family: 'Courier New', monospace;
+    color: #667eea;
+    font-weight: 600;
+    word-break: break-all;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+}
+
+.form-group input[type="text"] {
+    width: calc(100% - 150px);
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+    font-family: 'Courier New', monospace;
+}
+
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+#setContract {
+    margin-left: 10px;
+    padding: 12px 20px;
+}
+
+.file-label {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: #f8f9fa;
+    border: 3px dashed #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-label:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+}
+
+.file-icon {
+    font-size: 2em;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.info-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.info-item {
+    margin: 10px 0;
+    color: #333;
+}
+
+.info-item strong {
+    display: inline-block;
+    min-width: 120px;
+    color: #667eea;
+}
+
+.hash-value {
+    font-family: 'Courier New', monospace;
+    color: #28a745;
+    word-break: break-all;
+    font-weight: 600;
+}
+
+.status-message,
+.info-message {
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.warning-message {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.info-message {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.documents-list {
+    margin-top: 20px;
+}
+
+.document-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    border-left: 4px solid #667eea;
+}
+
+.document-item strong {
+    color: #667eea;
+}
+
+.document-item p {
+    margin: 5px 0;
+    color: #333;
+}
+
+footer {
+    text-align: center;
+    color: white;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+.warning {
+    background: rgba(255, 193, 7, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    .connection-status {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .form-group input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #setContract {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Menu responsive styles */
+    .side-menu {
+        width: 280px;
+        left: -280px;
+    }
+
+    .menu-icon {
+        width: 50px;
+        height: 50px;
+        padding: 12px;
+    }
+
+    .hamburger span {
+        width: 24px;
+    }
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Verification System - Blockchain</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Hamburger Menu Icon -->
+    <div class="menu-icon" id="menuIcon">
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <h3>Settings</h3>
+            <button type="button" class="close-btn" id="closeMenu">&times;</button>
+        </div>
+        <div class="menu-content">
+            <div class="menu-section">
+                <h4>Contract Address</h4>
+                <div class="contract-display" id="menuContractDisplay">
+                    <p class="contract-label">Current Contract:</p>
+                    <p class="contract-value" id="currentContractAddress">Not Set</p>
+                </div>
+                <div class="contract-input-group">
+                    <input type="text" id="menuContractInput" placeholder="Enter contract address..." />
+                    <button type="button" id="saveContractBtn" class="btn btn-primary">Save</button>
+                </div>
+                <button type="button" id="clearContractBtn" class="btn btn-secondary">Clear Saved Address</button>
+
+                <!-- Contract Address History -->
+                <div id="contractAddressHistory" class="contract-history">
+                    <p class="no-history">No saved addresses yet</p>
+                </div>
+                <button type="button" onclick="clearContractAddressHistory()" class="btn btn-secondary btn-small">Clear History</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="container">
+        <header>
+            <h1>Document Verification System</h1>
+            <p class="subtitle">Secure your documents on the Ethereum blockchain</p>
+        </header>
+
+        <!-- Generate Files Section -->
+        <div class="card">
+            <h2>Generate System Files</h2>
+            <p class="description">Generate system log or malware report files for blockchain verification</p>
+            <div class="generate-buttons">
+                <button type="button" id="generateLogBtn" class="btn btn-generate">
+                    <span class="btn-icon">📋</span>
+                    Generate System Log
+                </button>
+                <button type="button" id="generateMalwareBtn" class="btn btn-generate">
+                    <span class="btn-icon">🛡️</span>
+                    Generate Malware Report
+                </button>
+            </div>
+            <div id="generateStatus" class="status-message" style="display: none;"></div>
+        </div>
+
+        <!-- MetaMask Connection -->
+        <div class="card">
+            <div class="connection-status">
+                <div id="connectionStatus" class="status-disconnected">
+                    <span class="status-dot"></span>
+                    <span id="statusText">Not Connected</span>
+                </div>
+                <button type="button" id="connectWallet" class="btn btn-primary">Connect MetaMask</button>
+            </div>
+            <div id="accountInfo" class="account-info" style="display: none;">
+                <p><strong>Connected Account:</strong></p>
+                <p id="accountAddress" class="account-address"></p>
+                <p><strong>Network:</strong> <span id="networkName">Unknown</span></p>
+            </div>
+            <div id="contractStatus" class="info-message" style="display: none;"></div>
+        </div>
+
+        <!-- Upload Document Section -->
+        <div class="card">
+            <h2>Upload Document</h2>
+            <p class="description">Upload a file to generate its hash and store it on the blockchain</p>
+
+            <div class="form-group">
+                <label for="fileInput" class="file-label">
+                    <span class="file-icon">📄</span>
+                    <span id="fileNameDisplay">Choose a file...</span>
+                    <input type="file" id="fileInput" accept="*/*" />
+                </label>
+            </div>
+
+            <div id="uploadInfo" class="info-section" style="display: none;">
+                <div class="info-item">
+                    <strong>File Name:</strong> <span id="uploadFileName"></span>
+                </div>
+                <div class="info-item">
+                    <strong>File Size:</strong> <span id="uploadFileSize"></span>
+                </div>
+                <div class="info-item">
+                    <strong>SHA-256 Hash:</strong>
+                    <span id="uploadFileHash" class="hash-value"></span>
+                </div>
+            </div>
+
+            <button type="button" id="uploadBtn" class="btn btn-success" disabled>Upload to Blockchain</button>
+
+            <div id="uploadStatus" class="status-message" style="display: none;"></div>
+        </div>
+
+        <!-- Verify Document Section -->
+        <div class="card">
+            <h2>Verify Document</h2>
+            <p class="description">Upload a file to verify if it exists on the blockchain and hasn't been tampered with</p>
+
+            <div class="form-group">
+                <label for="verifyFileInput" class="file-label">
+                    <span class="file-icon">🔍</span>
+                    <span id="verifyFileNameDisplay">Choose a file to verify...</span>
+                    <input type="file" id="verifyFileInput" accept="*/*" />
+                </label>
+            </div>
+
+            <div id="verifyInfo" class="info-section" style="display: none;">
+                <div class="info-item">
+                    <strong>File Name:</strong> <span id="verifyFileName"></span>
+                </div>
+                <div class="info-item">
+                    <strong>SHA-256 Hash:</strong>
+                    <span id="verifyFileHash" class="hash-value"></span>
+                </div>
+            </div>
+
+            <button type="button" id="verifyBtn" class="btn btn-info" disabled>Verify on Blockchain</button>
+
+            <div id="verifyResult" class="status-message" style="display: none;"></div>
+        </div>
+
+        <!-- My Documents Section -->
+        <div class="card">
+            <h2>My Documents</h2>
+            <p class="description">View all documents you've uploaded to the blockchain</p>
+            <button type="button" id="loadMyDocuments" class="btn btn-secondary" disabled>Load My Documents</button>
+            <div id="myDocumentsList" class="documents-list"></div>
+        </div>
+
+        <footer>
+            <p>Built with Ethereum, MetaMask & Web3.js</p>
+            <p class="warning">Make sure you're connected to Sepolia Testnet</p>
+        </footer>
+    </div>
+
+    <!-- Web3.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
